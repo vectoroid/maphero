@@ -1,0 +1,7 @@
+# internal
+.deta
+.env
+.vscode
+
+# Python
+*.pyc

@@ -1,0 +1,65 @@
+"""
+
+"""
+from socket import close
+import aiohttp
+import api
+import deta
+import ..api.exceptions
+import fastapi
+import math
+import pydantic
+import ..api.config
+import typing
+import uuid
+
+
+class MetaDetaBaseModel(pydantic.BaseModel):
+    """
+    """
+    key: uuid.UUID = pydantic.Field(default_factory=uuid.uuid4)
+    version: int = 1
+    db_name: typing.ClassVar
+    
+    def dict(self, *args, **kwargs) -> dict:
+        return {**super().dict(*args, **kwargs), "key": str(self.key)}
+    
+    async def save(self) -> None:
+        async with api.db.async_detabase(self.db_name) as db:
+            self.version += 1
+            await db.insert(fastapi.encoders.jsonable_encoder(self))
+            
+    async def update(self, **kwargs) -> None:
+        async with api.db.async_detabase(self.db_name) as db:
+            new_version = self.version + 1
+            new_instance = self.__class__({**self.dict(), **kwargs, "version": new_version})
+            await db.put(fastapi.encoders.jsonable_encoder(new_instance))
+            
+            self.__dict__.update(new_instance.__dict__)
+            
+    async def delete(self) -> None:
+        async with api.db.async_detabase(self.db_name) as db:
+            await db.delete(str(self.key))
+        return True
+    
+    @classmethod
+    async def find(cls, _key: typing.Union[uuid.UUID , str], exception=api.exceptions.NotFoundHTTPException()): -> cls:
+        async with api.db.async_detabase(cls.db_name) as db:
+            
+            
+    @classmethod
+    async def fetch(cls, query, limit_upper_bound: int=math.inf) -> list:
+        async with api.db.async_detabase(cls.db_name) as db:
+            documents_limit = min(limit_upper_bound, config.ApiSettings.documents_limit)
+            query = jsonable_encoder(query)
+            
+            results = await db.fetch(query, limit=documents_limit)
+            retrieved_docs = results.items
+            
+            while len(retrieved_docs) <= documents_limit and results.last:
+                results = await db.fetch(query, last=results.last)
+                retrieved_docs += results.items
+                
+            return [cls(**instance) for instance in retrieved_docs]
+
+            

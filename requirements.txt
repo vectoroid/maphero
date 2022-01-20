@@ -1,0 +1,3 @@
+aiohttp
+deta[async]==1.1.0a1
+fastapi
