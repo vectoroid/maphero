@@ -6,7 +6,6 @@ models should adhere.
 """
 import aiohttp
 import api
-import deta
 import fastapi
 import math
 import pydantic
@@ -45,9 +44,16 @@ class MetaDetaBaseModel(pydantic.BaseModel):
         return True
     
     @classmethod
-    async def find(cls, _key: typing.Union[uuid.UUID , str], exception=api.exceptions.NotFoundHTTPException()): -> cls:
+    async def find(cls, _key: typing.Union[uuid.UUID, str], exception=api.exceptions.NotFoundHTTPException()) -> cls:
         async with api.db.async_detabase(cls.db_name) as db:
+            instance = await db.get(str(_key))
             
+            if instance is None and exception:
+                raise exception
+            elif instance:
+                return cls(**instance)
+            else:
+                return None
             
     @classmethod
     async def fetch(cls, query, limit_upper_bound: int=math.inf) -> list:
