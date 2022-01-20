@@ -1,6 +1,6 @@
 # import deta
 import fastapi
-import .api.config
+from .api import config
 # import os
 
 app_title: str = "MapHero"
