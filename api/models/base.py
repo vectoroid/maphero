@@ -7,11 +7,9 @@ models should adhere.
 import aiohttp
 import api
 import deta
-import ..api.exceptions
 import fastapi
 import math
 import pydantic
-import ..api.config
 import typing
 import uuid
 
