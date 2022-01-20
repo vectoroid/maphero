@@ -7,8 +7,7 @@ import aiohttp
 import contextlib
 import deta
 import fastapi
-import ..api.config
-import ..api.exceptions
+from . import api
 
 
 @contextlib.asynccontextmanager
