@@ -6,7 +6,6 @@ Deta Base (NoSQL database) config & connection
 import aiohttp
 import contextlib
 import deta
-import fastapi
 from . import api
 
 # Initialize the Deta SDK 
