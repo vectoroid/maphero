@@ -1,8 +1,8 @@
 """
 """
 import enum
-import ..models.base as base_models
-import ..api.types
+from . import api.models.base as base_models
+from . import api.types
 
 
 valid_geojson = api.types.ValidGeojsonTypes
