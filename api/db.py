@@ -20,8 +20,8 @@ async def async_detabase(db_name:str = api.config.ApiSettings.db_name):
     try:
         yield db_client
     except aiohttp.ClientError:
-        api.exceptions.UnprocessableEntityException("Database error")
+        raise api.exceptions.UnprocessableEntityException("Database error")
     finally:
-        await client.close()
+        await db_client.close()
     
     
