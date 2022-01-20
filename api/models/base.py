@@ -1,7 +1,9 @@
 """
+MetaDeta
 
+This file contains the base model class, which defines the interface to which all derived
+models should adhere.
 """
-from socket import close
 import aiohttp
 import api
 import deta
@@ -16,6 +18,8 @@ import uuid
 
 class MetaDetaBaseModel(pydantic.BaseModel):
     """
+    MetaDetaBaseModel < pydantic.BaseModel: 
+    Base model class, derived from pydantic.BaseModel
     """
     key: uuid.UUID = pydantic.Field(default_factory=uuid.uuid4)
     version: int = 1
