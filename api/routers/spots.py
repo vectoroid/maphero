@@ -2,8 +2,8 @@
 Spots Router
 """
 import fastapi
-import ..api.db
-import ..api.config
+from api import db
+from api import config
 
 
 router = fastapi.APIRouter(prefix='/spots', tags=["Spots"])
