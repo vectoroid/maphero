@@ -47,7 +47,7 @@ class MetaDetaBaseModel(pydantic.BaseModel):
         return True
     
     @classmethod
-    async def find(cls, _key: typing.Union[uuid.UUID, str], exception=NotFoundHTTPException()) -> cls:
+    async def find(cls, _key: typing.Union[uuid.UUID, str], exception=NotFoundHTTPException()):
         async with db.async_detabase(cls.db_name) as db:
             instance = await db.get(str(_key))
             
@@ -61,8 +61,8 @@ class MetaDetaBaseModel(pydantic.BaseModel):
     @classmethod
     async def fetch(cls, query, limit_upper_bound: int=math.inf) -> list:
         async with db.async_detabase(cls.db_name) as db:
-            documents_limit = min(limit_upper_bound, ApiSettings.documents_limit)
-            query = jsonable_encoder(query)
+            documents_limit = min(limit_upper_bound, api.config.ApiSettings.documents_limit)
+            query = fastapi.encoders.jsonable_encoder(query)
             
             results = await db.fetch(query, limit=documents_limit)
             retrieved_docs = results.items

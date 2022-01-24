@@ -36,7 +36,7 @@ class ForbiddenHTTPException(fastapi.HTTPException):
         
 
 class NotFoundHTTPException(fastapi.HTTPException):
-    def __init__(self, msg: typing.Optional[str]="The resource you requested could not be located.")
+    def __init__(self, msg: typing.Optional[str]="The resource you requested could not be located."):
         super().__init__(
             status_code=fastapi.status.HTTP_404_NOT_FOUND,
             detail=msg

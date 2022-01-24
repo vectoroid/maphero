@@ -26,8 +26,8 @@ Position = typing.Union[
 ]
 
 class GeoBase(pydantic.BaseModel):
-    type: str = Field(...)
-    coordinates: Position = Field(...)
+    type: str = pydantic.Field(...)
+    coordinates: Position = pydantic.Field(...)
     
 class ValidGeojsonTypes(enum.Enum):
     """
