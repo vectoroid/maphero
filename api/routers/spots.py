@@ -1,5 +1,5 @@
 """
-Spots Route
+Spots Router
 """
 import fastapi
 import ..api.db
