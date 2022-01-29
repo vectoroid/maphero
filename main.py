@@ -1,6 +1,7 @@
 # import deta
 import fastapi
 from api import config
+from routers import spots
 # import os
 
 app_title: str = "MapHero"
