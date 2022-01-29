@@ -2,7 +2,6 @@
 .deta
 .env
 .vscode 
-.gitpod.yml
 
 # Python
 *.pyc
